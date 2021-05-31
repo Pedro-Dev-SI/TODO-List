@@ -1,24 +1,26 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, KeyboardAvoidingView, Platform, TextInput, TouchableOpacity, Keyboard } from 'react-native';
-import Tasks from './components/Tasks';
+
+//Importando o componente CardTarefa
+import CardTarefa from './components/CardTarefa';
 
 
 export default function App() {
 
-  const [task, setTask] = useState();
+  const [tarefa, setTarefa] = useState();
 
-  const [taskItems, setTaskItems] = useState([]);
+  const [tarefaArray, setTarefaArray] = useState([]);
 
-  const handleAddTask = () => {
+  const adicionaTarefa = () => {
     Keyboard.dismiss();
-    setTaskItems([...taskItems, task]);
-    setTask(null);
+    setTarefaArray([...tarefaArray, tarefa]);
+    setTarefa(null);
   }
 
-  const completeTask = (index) => {
-    let itemsDeleted = [...taskItems];
-    itemsDeleted.splice(index, 1);
-    setTaskItems(itemsDeleted);
+  const deletaTarefa = (index) => {
+    let arrayAux = [...tarefaArray];
+    arrayAux.splice(index, 1);
+    setTarefaArray(arrayAux);
   }
   
   return (
@@ -27,11 +29,14 @@ export default function App() {
         <Text style={styles.title}>TODO List</Text>
 
         <View style={styles.items}>
+
+          {/* Aqui é onde os cards de tarefas serão exibidos */}
+
           {
-            taskItems.map((item, index) => {
+            tarefaArray.map((item, index) => {
               return(
-                <TouchableOpacity key={index} onPress={() => completeTask(index)}>
-                  <Tasks text={item}/>
+                <TouchableOpacity key={index} onPress={() => deletaTarefa(index)}>
+                  <CardTarefa text={item}/>
                 </TouchableOpacity>
               )
             })
@@ -41,17 +46,17 @@ export default function App() {
 
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
-        style={styles.writeTask}
+        style={styles.containerTarefas}
       >
         <TextInput
           style={styles.input}
           placeholder={"Digite sua tarefa..."}
-          value={task}
-          onChangeText={(text) => setTask(text)}
+          value={tarefa}
+          onChangeText={(text) => setTarefa(text)}
         />
 
-        <TouchableOpacity onPress={() => handleAddTask(task)}>
-          <View style={styles.addTask}>
+        <TouchableOpacity onPress={() => adicionaTarefa(tarefa)}>
+          <View style={styles.addTarefaBtn}>
             <Text style={styles.plusSign}>+</Text>
           </View>
         </TouchableOpacity>
@@ -61,6 +66,8 @@ export default function App() {
   );
 }
 
+
+//*Estilização
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -88,7 +95,7 @@ const styles = StyleSheet.create({
     marginTop: 40,
   },
 
-  writeTask: {
+  containerTarefas: {
     position: 'absolute',
     bottom: 60,
     width: '100%',
@@ -108,9 +115,9 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
 
-  addTask: {
-    width: 35,
-    height: 35,
+  addTarefaBtn: {
+    width: 45,
+    height: 45,
     borderRadius: 50,
     backgroundColor: '#fff',
     justifyContent: 'center',

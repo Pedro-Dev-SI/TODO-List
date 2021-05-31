@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
-function Tasks(props) {
+function CardTarefa(props) {
    return (
       <View style={styles.item}>
          <View style={styles.itemInside}>
@@ -12,6 +12,8 @@ function Tasks(props) {
    )
 }
 
+
+//*Estilização
 const styles = StyleSheet.create({
    item: {
       backgroundColor: '#5A5A5A',
@@ -45,5 +47,5 @@ const styles = StyleSheet.create({
    },
 })
 
-export default Tasks;
+export default CardTarefa;
 
